@@ -10,13 +10,13 @@ router.get("/getAll",async (req, res) => {
     try {
         const api = await axios.get("https://pokeapi.co/api/v2/pokemon")
         const api2 = await axios.get(api.data.next)
-        const poke1 = api.data.results
-        const poke2 = api2.data.results
-        const pokeTotal = [...poke1, ...poke2]
-        
-        const pokeApi =  pokeTotal.map(async r  => {
-            const format = await axios.get(r.url)
-            const obj = {
+        //const poke1 = api
+        //const poke2 = api2
+        const pokeTotal = [...api.data.results, ...api2.data.results]
+
+        const pokeApi =  pokeTotal.map(  r  => {
+            const format =  axios.get(r.url)
+              return {
                 id: format.data.id,
                 image: format.data.sprites.ront_default,
                 name: format.data.name,
@@ -27,13 +27,11 @@ router.get("/getAll",async (req, res) => {
                 height: format.data.height,
                 weight: format.data.weight,
                 type: format.data.types.map(n => n.type.name)
-            }
-            return obj
-            //console.log(obj)
-            
-        })  
+            } 
+        })
+
         const result = await Promise.all(pokeApi)
-        let pokemonDb = await Pokemon.findAll({
+        /* let pokemonDb = await Pokemon.findAll({
             include: {
                 model: Type,
                 attributes:['name'],
@@ -42,9 +40,9 @@ router.get("/getAll",async (req, res) => {
                 },
                 
             }})
-        const result2 = [...result, ...pokemonDb]
-        
-        res.send(result2)
+        const result2 = [...result, ...pokemonDb] */
+        //console.log(result)
+        res.send(result)
 
     } catch (error) {
         console.log(error)
@@ -146,22 +144,29 @@ router.post("/create", async (req, res) => {
     const {name, hp, attack, defense, speed, height, weight, type} = req.body;
 
     try {
-        if(!name || !hp || !attack || !defense || !speed || !height || !weight){
+        if(!name){
             res.status(404).send("Llena todos los campos")
         }
             const createPoke = await Pokemon.create({
                 name, hp, attack, defense, speed, height, weight
             })
 
-            const pokemon = await Pokemon.findAll({where: {name: type}});
+            const pokemon = await Type.findAll({where: {name: type}});
             
             if(pokemon){
                 await createPoke.addType(pokemon);
             }
 
             const result = await Pokemon.findOne({
-                where:{name},
-                include:Type
+                where:{name},   
+                include:{
+                    model: Type,
+                    attributes:['name'],
+                    through:{
+                        attributes:[],
+                    }
+                }
+                
             });
         
 
