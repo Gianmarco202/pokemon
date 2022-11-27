@@ -9,16 +9,16 @@ const router = Router();
 router.get("/getAll",async (req, res) => {
     try {
         const api = await axios.get("https://pokeapi.co/api/v2/pokemon")
-        const api2 = await axios.get(api.data.next)
+        //const api2 = await axios.get(api.data.next)
         //const poke1 = api
         //const poke2 = api2
-        const pokeTotal = [...api.data.results, ...api2.data.results]
+        //const pokeTotal = [...api.data.results, ...api2.data.results]
 
-        const pokeApi =  pokeTotal.map(  r  => {
-            const format =  axios.get(r.url)
+        const pokeApi =  api.data.results.map(async  r  => {
+            const format = await axios.get(r.url)
               return {
                 id: format.data.id,
-                image: format.data.sprites.ront_default,
+                image: format.data.sprites.front_default,
                 name: format.data.name,
                 hp: format.data.stats[0].base_stat,
                 attack: format.data.stats[1].base_stat,
@@ -30,8 +30,8 @@ router.get("/getAll",async (req, res) => {
             } 
         })
 
-        const result = await Promise.all(pokeApi)
-        /* let pokemonDb = await Pokemon.findAll({
+       const result = await Promise.all(pokeApi)
+       let pokemonDb = await Pokemon.findAll({
             include: {
                 model: Type,
                 attributes:['name'],
@@ -40,9 +40,9 @@ router.get("/getAll",async (req, res) => {
                 },
                 
             }})
-        const result2 = [...result, ...pokemonDb] */
+        const result2 = [...result, ...pokemonDb] 
         //console.log(result)
-        res.send(result)
+        res.send(result2)
 
     } catch (error) {
         console.log(error)
@@ -107,7 +107,7 @@ router.get("/", async(req, res) => {
         console.log(api.data)
         const poke =  api.data
         
-            const obj = {
+            const pokeApi = {
                 id: poke.id,
                 image: poke.sprites.front_default,
                 name: poke.name,
@@ -117,11 +117,11 @@ router.get("/", async(req, res) => {
                 speed: poke.stats[5].base_stat,
                 height: poke.height,
                 weight: poke.weight,
-                type: poke.types[0].type.name
+                type: poke.types.map(p =>p.type.name) 
             }
             
         
-        const format = [...pokeDb, obj]
+        const format = [...pokeDb, pokeApi]
 
         if(name){
 
