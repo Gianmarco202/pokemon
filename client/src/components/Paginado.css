@@ -1,0 +1,30 @@
+.paginado {
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 1rem;
+     
+ 
+ }
+.button-page {
+     width: 40px;
+     height: 35px;
+     font-family: inherit;
+     font-size: 20px;
+     font-weight: 700;
+     margin: 0 3px;
+     border-radius: 6px;
+     cursor: pointer;
+     transition: all 0.3s ease;
+     background: transparent;
+     color: black;
+     border-color: white;
+  }
+ 
+.button-page:hover {
+    font-weight:  900;
+    border-color: #101010;
+    background-color: aqua;
+    color: #101010;
+ }

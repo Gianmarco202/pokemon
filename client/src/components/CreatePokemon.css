@@ -1,0 +1,45 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.create-form {
+    width: 400px;
+    background: #24303c;
+    padding: 30px;
+    margin: auto;
+    margin-top: 20px;
+    border-radius: 4px;
+    font-family: 'calibri';
+    color: white;
+    box-shadow: 7px 13px 37px #000;
+}
+
+.create-title {
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.create-form input {
+    width: 100%;
+    color: white;
+    background: #24303c;
+    padding: 9px;
+    border-radius: 4px;
+    margin-top: 10px;
+    border: 1px solid #1f53c5;
+    font-family: 'calibri';
+    font-size: 15px;
+}
+
+.create-form .botons {
+    width: 100%;
+    background: #1f53c5;
+    border: none;
+    padding: 12px;
+    color: white;
+    cursor: pointer;
+    margin: 16px 0;
+    font-size: 15px;
+}

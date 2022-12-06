@@ -1,25 +1,18 @@
-import React, { useEffect } from "react";
-import { useDispatch,} from "react-redux";
+import React from "react";
+//import { useDispatch,} from "react-redux";
 import { Link } from "react-router-dom";
+import img from "../images/imagen1.png";
+import "./NavBar.css"
 
-export default function Navbar() {
-
-    const dispatch = useDispatch()
-
-    useEffect(() => {
-        dispatch(getPokemons());
-    },[])
-
-    function handleClick(e) {
-        e.preventDefault();
-        dispatch(getPokemons());
-    }
+export default function NavBar() {
 
     return (
-        <div>
-            <h3 onClick={handleClick}>Inicio</h3>
-            <Link to={'/pokemon'}>Crear Pokemon</Link>
-            <h3></h3>
+        <div className="navbar">
+            
+            <img className="imagen-pokedex" src={img}/>
+            <Link className="link-nav" to={'/create'}>Crear Pokemon  </Link>
+            <Link className="link-nav" to={'/contacts'}>  Contactos</Link>
+            
         </div>
     )
 }

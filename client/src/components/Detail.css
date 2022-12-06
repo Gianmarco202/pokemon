@@ -1,0 +1,29 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.inicio-home {
+    text-decoration: none;
+    font-size: 20px;
+}
+
+.title {
+   
+    text-align: center;
+    font-size: 40px;
+}
+
+.detail-Card h3 {
+    left: 50%;
+    top: 5%;
+    transform: translateX(45%) translateY(-1000%); 
+    font-size: 30px;
+    color: black;
+    background-color: orange;
+    padding: 6px;
+    
+    border-radius: 40px;
+    
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}

@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const {Pokemon, Type} = require("../db");
-const axios = require("axios");
+const axios = require("./../config/axios");
 
 
 
@@ -12,13 +12,13 @@ router.get("/getAll",async (req, res) => {
         //const api2 = await axios.get(api.data.next)
         //const poke1 = api
         //const poke2 = api2
-        //const pokeTotal = [...api.data.results, ...api2.data.results]
+        // pokeTotal = [...api.data.results, ...api2.data.results]
 
         const pokeApi =  api.data.results.map(async  r  => {
             const format = await axios.get(r.url)
               return {
                 id: format.data.id,
-                image: format.data.sprites.front_default,
+                image: format.data.sprites.other.home.front_default,
                 name: format.data.name,
                 hp: format.data.stats[0].base_stat,
                 attack: format.data.stats[1].base_stat,
@@ -69,7 +69,7 @@ router.get("/:id",async (req, res) => {
         pokemon = resp.map(poke => {
             return{
                 id: poke.id,
-                image: poke.sprites.front_default,
+                image: poke.sprites.other.home.front_default,
                 name: poke.name,
                 hp: poke.stats[0].base_stat,
                 attack: poke.stats[1].base_stat,
@@ -77,7 +77,7 @@ router.get("/:id",async (req, res) => {
                 speed: poke.stats[5].base_stat,
                 height: poke.height,
                 weight: poke.weight,
-                type: poke.types[0].type.name
+                type: poke.types.map(e => e.type.name)
                 }  
                 
             }) 
@@ -109,7 +109,7 @@ router.get("/", async(req, res) => {
         
             const pokeApi = {
                 id: poke.id,
-                image: poke.sprites.front_default,
+                image: poke.sprites.other.home.front_default,
                 name: poke.name,
                 hp: poke.stats[0].base_stat,
                 attack: poke.stats[1].base_stat,
@@ -141,18 +141,18 @@ router.get("/", async(req, res) => {
 })
 
 router.post("/create", async (req, res) => {
-    const {name, hp, attack, defense, speed, height, weight, type} = req.body;
+    const {name, hp, attack, defense, speed, height, weight, types, image} = req.body;
 
     try {
         if(!name){
             res.status(404).send("Llena todos los campos")
         }
             const createPoke = await Pokemon.create({
-                name, hp, attack, defense, speed, height, weight
+                name, hp, attack, defense, speed, height, weight, image
             })
 
-            const pokemon = await Type.findAll({where: {name: type}});
-            
+            const pokemon = await Type.findAll({where: {name: types}});
+            console.log(pokemon, 'pokemon:::::::::::::', types)
             if(pokemon){
                 await createPoke.addType(pokemon);
             }

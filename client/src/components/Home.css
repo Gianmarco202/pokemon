@@ -1,0 +1,61 @@
+
+
+.box{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.box-pokemom {
+    width: 98%;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.box-pokemon:hover {
+    box-shadow: 5px 5px 20px rgba(0,0,0,0.4);
+    transform: translateY(-3%);
+}
+
+.link {
+    text-decoration: none;
+}
+
+.selects select{
+    appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+    display: inline-block;
+    
+	width: 100%;
+	cursor: pointer;
+  	padding: 7px 10px;
+  	height: 32px;
+  	outline: 0; 
+  	border: 0;
+	border-radius: 0;
+	background: #f0f0f0;
+	color: #7b7b7b;
+	font-size: 1em;
+	color: #999;
+	font-family: 
+	'Quicksand', sans-serif;
+	border:2px solid rgba(0,0,0,0.2);
+    border-radius: 12px;
+    position: relative;
+    transition: all 0.25s ease;
+}
+
+.selects {
+    max-width: 450px;
+
+	position: relative;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.selects select:hover{
+	background: #B1E8CD;
+}
+
