@@ -9,7 +9,7 @@ export default function NavBar() {
     return (
         <div className="navbar">
             
-            <img className="imagen-pokedex" src={img}/>
+            <img className="imagen-pokedex" alt="image not" src={img}/>
             <Link className="link-nav" to={'/create'}>Crear Pokemon  </Link>
             <Link className="link-nav" to={'/contacts'}>  Contactos</Link>
             

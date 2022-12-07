@@ -31,6 +31,7 @@ export default function Home() {
 
     function handleSelectFilter(e) {
       dispatch(filterTypes(e.target.value))
+      console.log(e.target.value, "handleSelectFilter")
     }
     
     function handleFilterCreatedApi(e) {
@@ -76,6 +77,7 @@ export default function Home() {
               <option value='-+'>Ataque -+</option>
           </select>
            <i></i>
+
           </div>
         </div>
         <SearchBar/>
@@ -95,7 +97,7 @@ export default function Home() {
                     <React.Fragment  key={poke.id}>
                   <Link className="link" to={`/detail/${poke.id}`}>
                     <div className="box-pokemon">
-                    <Card image={poke.image} name={poke.name} type={poke.type} key={poke.id} />
+                    <Card image={poke.image} name={poke.name} types={poke.types} key={poke.id} />
                     </div>
                   </Link>
                 </React.Fragment>

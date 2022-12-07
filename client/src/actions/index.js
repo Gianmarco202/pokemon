@@ -52,6 +52,7 @@ export function orderPokemons(payload) {
 }
 
 export function filterTypes(payload) {
+    console.log(payload, "filterTypeaction")
     return {
         type: 'FILTER_TYPES',
         payload

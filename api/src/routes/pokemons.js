@@ -26,7 +26,7 @@ router.get("/getAll",async (req, res) => {
                 speed: format.data.stats[5].base_stat,
                 height: format.data.height,
                 weight: format.data.weight,
-                type: format.data.types.map(n => n.type.name)
+                types: format.data.types.map(n => ({name : n.type.name}))
             } 
         })
 
@@ -40,6 +40,7 @@ router.get("/getAll",async (req, res) => {
                 },
                 
             }})
+            console.log(pokemonDb.types,"pokemonDb")
         const result2 = [...result, ...pokemonDb] 
         //console.log(result)
         res.send(result2)

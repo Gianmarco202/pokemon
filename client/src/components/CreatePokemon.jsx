@@ -195,8 +195,8 @@ export default function CreatePokemon() {
                 <div>
                     <select onChange={ e => handleSelect(e)}>
                         <option value={'all'}>Tipos</option>
-                        {types?.map((type) =>(
-                        <option key={type.id} value={type.name}>{type.name}</option>
+                        {types?.map((e) =>(
+                        <option key={e.id} value={e.name}>{e.name}</option>
               ) )}
                      </select>
                 </div>

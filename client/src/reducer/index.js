@@ -36,7 +36,23 @@ export default function rootReducer(state=initialState, action) {
           
         case 'FILTER_TYPES':
             const allPokemons = state.allPokemons
-            const filterPokemons = action.payload  === 'all' ? allPokemons : allPokemons.filter(el => el.type.includes(action.payload))
+            console.log(allPokemons,"allPokemons")
+            console.log(action.payload,"actionpayload")
+            function filterByType(name){
+                return allPokemons.filter((pokemon)=>{
+                    const aux = []
+                    pokemon.types.forEach((obj) => {
+                        if (obj.name === name ){
+                            aux.push(name)
+                        }
+                    })
+            
+                    return aux.includes(name)
+                    
+                })
+                
+            }
+            const filterPokemons = action.payload  === 'all' ? allPokemons : filterByType(action.payload)
             return{
                 ...state,
                 pokemons: filterPokemons  

@@ -1,0 +1,19 @@
+*{
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+    
+}
+.landing {
+    background-image: url(../images/pokemon6.jpg);
+}
+
+.landing-title {
+    text-decoration: none;
+    font-size: 60px;
+    color: blanchedalmond;
+    text-align: center;
+    align-items: center;
+    
+}
