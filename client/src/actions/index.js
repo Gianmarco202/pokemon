@@ -7,7 +7,7 @@ export function getPokemons() {
             type: 'GET_POKEMONS',
             payload: pedidoApi.data
         });
-        console.log(pedidoApi)
+    
         
     }  
 }
@@ -36,6 +36,7 @@ export function getDetail(id) {
 export function getTypes() {
     return async (dispatch) => {
         let type = await axios.get("http://localhost:3001/types/getAll");
+        console.log(type.data ,"gettypes")
         dispatch({
             type: 'GET_TYPES',
             payload: type.data
@@ -52,7 +53,7 @@ export function orderPokemons(payload) {
 }
 
 export function filterTypes(payload) {
-    console.log(payload, "filterTypeaction")
+    
     return {
         type: 'FILTER_TYPES',
         payload

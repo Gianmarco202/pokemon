@@ -36,8 +36,7 @@ export default function rootReducer(state=initialState, action) {
           
         case 'FILTER_TYPES':
             const allPokemons = state.allPokemons
-            console.log(allPokemons,"allPokemons")
-            console.log(action.payload,"actionpayload")
+        
             function filterByType(name){
                 return allPokemons.filter((pokemon)=>{
                     const aux = []

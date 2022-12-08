@@ -2,18 +2,32 @@
     margin: 0;
     padding: 0;
 
-    box-sizing: border-box;
+    
     
 }
 .landing {
     background-image: url(../images/pokemon6.jpg);
+    height: 100vh;
 }
 
 .landing-title {
     text-decoration: none;
-    font-size: 60px;
-    color: blanchedalmond;
-    text-align: center;
-    align-items: center;
+    text-align:center;
+    color: #fff;
+    background: #eee;
+    font-family: impact;
+    font-size: 80px;
+    letter-spacing: 0;
+    text-shadow: -3px -3px 3px #0000DF, 3px -3px 3px #0000DF, -3px 3px 3px #0000DF, 3px 3px 3px #0000DF;
     
+}
+
+.landing-title:hover {
+
+color: blue;
+background: blue;
+font-family: impact;
+
+letter-spacing: 0;
+text-shadow: -3px -3px 3px white, 3px -3px 3px white, -3px 3px 3px white, 3px 3px 3px white;
 }

@@ -5,11 +5,11 @@ export default function Card({image, name, types}) {
     return (
         <div className="card">
             <img className="imagen" src={image} alt= "image not found" />
-            <h2>{name}</h2>
+            <h2 className="card-name">{name}</h2>
             {
-                types && types.map(obj => <p>
+                types && types.map(obj => <h3>
                     {obj.name}
-                </p>)
+                </h3>)
             }
             
             

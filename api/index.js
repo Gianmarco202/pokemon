@@ -19,10 +19,22 @@
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
+const axios = require("axios")
+const {Type} = require("./src/db")
 
 // Syncing all the models at once.
 conn.sync({ force: true }).then(() => {
-  server.listen(3001, () => {
+  server.listen(3001, async () => {
+
+    const api = await axios.get(`https://pokeapi.co/api/v2/type`)
+    const type = api.data.results.map( type => { 
+        return{ 
+            name: type.name
+        }
+    })
+    
+    const format = await Type.bulkCreate(type)
+    
     console.log('%s listening at 3001'); // eslint-disable-line no-console
   });
 });

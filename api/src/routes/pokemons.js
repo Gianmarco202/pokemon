@@ -9,12 +9,10 @@ const router = Router();
 router.get("/getAll",async (req, res) => {
     try {
         const api = await axios.get("https://pokeapi.co/api/v2/pokemon")
-        //const api2 = await axios.get(api.data.next)
-        //const poke1 = api
-        //const poke2 = api2
-        // pokeTotal = [...api.data.results, ...api2.data.results]
+        const api2 = await axios.get(api.data.next)
+        pokeTotal = [...api.data.results, ...api2.data.results]
 
-        const pokeApi =  api.data.results.map(async  r  => {
+        const pokeApi = pokeTotal.map(async  r  => {
             const format = await axios.get(r.url)
               return {
                 id: format.data.id,
@@ -40,7 +38,7 @@ router.get("/getAll",async (req, res) => {
                 },
                 
             }})
-            console.log(pokemonDb.types,"pokemonDb")
+            
         const result2 = [...result, ...pokemonDb] 
         //console.log(result)
         res.send(result2)
@@ -58,11 +56,12 @@ router.get("/:id",async (req, res) => {
         const id = req.params.id
         let pokemon
         if(typeof id === 'string' && id.length > 6) {
-            pokemon = await Pokemon.findByPk(id, {
+           const pokemonData = await Pokemon.findByPk(id, {
                 include :[{
                     model: Type
                 }]
             })
+            pokemon= [pokemonData]
         } else {
 
         const api = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`)
@@ -151,8 +150,9 @@ router.post("/create", async (req, res) => {
             const createPoke = await Pokemon.create({
                 name, hp, attack, defense, speed, height, weight, image
             })
-
+            
             const pokemon = await Type.findAll({where: {name: types}});
+            
             console.log(pokemon, 'pokemon:::::::::::::', types)
             if(pokemon){
                 await createPoke.addType(pokemon);
