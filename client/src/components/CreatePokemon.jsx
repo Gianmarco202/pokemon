@@ -8,6 +8,7 @@ export default function CreatePokemon() {
 
     const dispatch = useDispatch()    
     const types = useSelector( state => state.types)
+    console.log(types)
 
     const [input, setInput] = useState({
         name:"",
@@ -18,6 +19,7 @@ export default function CreatePokemon() {
         height:"",
         weight:"",
         types:[],
+        likes:"",
         image: "",
     })
 
@@ -35,36 +37,50 @@ export default function CreatePokemon() {
         let error = {};
 
         let expRegName = /^[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]+$/;
-        let expRegHp = /^[0-9]+$/;
-        let expRegAttack = /^[0-9]+$/;
-        let expRegDefense = /^[0-9]+$/;
-        let expRegSpeed = /^[0-9]+$/;
-        let expRegHeight = /^[0-9]+$/;
-        let expRegWeight =/^[0-9]+$/;
+        let expRegNumeros = /^[0-9]+$/;
+        let expRegRango= /^\d{1,3}$/;
+        
 
         if(!input.name.trim()){
             error.name ="El campoo 'Nombre' es requerido";
         }else if(!expRegName.test(input.name.trim())){
             error.name = "Solo se acepta letras"
         }
-        if(!expRegHp.test(input.hp.trim())){
+
+        if(!expRegNumeros.test(input.hp.trim())){
             error.hp = "Solo se acepta Numeros"
-        }
-        if(!expRegAttack.test(input.attack.trim())){
-            error.attack = "Solo se acepta Numeros"
-        }
-        if(!expRegDefense.test(input.defense.trim())){
-            error.defense = "Solo se acepta Numeros"
-        }
-        if(!expRegSpeed.test(input.speed.trim())){
-            error.speed = "Solo se acepta Numeros"
-        }
-        if(!expRegHeight.test(input.height.trim())){
-            error.height = "Solo se acepta Numeros"
+        }else if(!expRegRango.test(input.hp.trim())){
+            error.hp = "Debe ser menor a 1000"
         }
         
-         if(!expRegWeight.test(input.weight.trim())){
+        if(!expRegNumeros.test(input.attack.trim())){
+            error.attack = "Solo se acepta Numeros"
+        }else if(!expRegRango.test(input.attack.trim())){
+            error.attack = "Debe ser menor a 1000"
+        }
+
+        if(!expRegNumeros.test(input.defense.trim())){
+            error.defense = "Solo se acepta Numeros"
+        }else if(!expRegRango.test(input.defense.trim())){
+            error.defense = "Debe ser menor a 1000"
+        }
+
+        if(!expRegNumeros.test(input.speed.trim())){
+            error.speed = "Solo se acepta Numeros"
+        }else if(!expRegRango.test(input.speed.trim())){
+            error.speed = "Debe ser menor a 1000"
+        }
+
+        if(!expRegNumeros.test(input.height.trim())){
+            error.height = "Solo se acepta Numeros"
+        }else if(!expRegRango.test(input.height.trim())){
+            error.height = "Debe ser menor a 1000"
+        }
+        
+         if(!expRegNumeros.test(input.weight.trim())){
             error.weight = "Solo se acepta numeros"
+        }else if(!expRegRango.test(input.weight.trim())){
+            error.weight = "Debe ser menor a 1000"
         }
         return error;
     }
@@ -102,7 +118,9 @@ export default function CreatePokemon() {
             height:"",
             weight:"",
             types:[],
+            likes:"",
             image: "",
+            
         })
     }
 
@@ -190,6 +208,16 @@ export default function CreatePokemon() {
                     name='image'
                     placeholder="Imagen"
                      />
+                </div>
+                <div>
+                    <input
+                     type="text" 
+                     value={input.likes} 
+                     name='likes' 
+                     placeholder="likes"
+                     onBlur={handleBlur} 
+                     onChange={handleChange} required/>  
+                     
                 </div>
 
                 <div>

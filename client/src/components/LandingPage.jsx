@@ -7,9 +7,11 @@ export default function LandingPage() {
         <div>
 
             <div className="landing">
-                <Link className="landing-title" to={"/home"}>
+                <Link to={'/home'} className="landing-title">
                    <h2>Bienvenidos</h2>
+                   <p>Click Aqui</p>
                 </Link>
+                <Link className="landing-ingresar">Ingresar</Link>
                 </div>
         </div>    
         

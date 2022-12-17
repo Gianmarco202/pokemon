@@ -39,7 +39,8 @@ export default function rootReducer(state=initialState, action) {
         
             function filterByType(name){
                 return allPokemons.filter((pokemon)=>{
-                    const aux = []
+                    
+                     const aux = []
                     pokemon.types.forEach((obj) => {
                         if (obj.name === name ){
                             aux.push(name)

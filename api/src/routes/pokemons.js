@@ -10,9 +10,9 @@ router.get("/getAll",async (req, res) => {
     try {
         const api = await axios.get("https://pokeapi.co/api/v2/pokemon")
         const api2 = await axios.get(api.data.next)
-        pokeTotal = [...api.data.results, ...api2.data.results]
+        pokeApi = [...api.data.results, ...api2.data.results]
 
-        const pokeApi = pokeTotal.map(async  r  => {
+        /* const pokeApi = pokeTotal.map(async  r  => {
             const format = await axios.get(r.url)
               return {
                 id: format.data.id,
@@ -28,7 +28,7 @@ router.get("/getAll",async (req, res) => {
             } 
         })
 
-       const result = await Promise.all(pokeApi)
+       const result = await Promise.all(pokeApi) */
        let pokemonDb = await Pokemon.findAll({
             include: {
                 model: Type,
@@ -39,7 +39,7 @@ router.get("/getAll",async (req, res) => {
                 
             }})
             
-        const result2 = [...result, ...pokemonDb] 
+        const result2 = [...pokeApi, ...pokemonDb] 
         //console.log(result)
         res.send(result2)
 
@@ -77,7 +77,7 @@ router.get("/:id",async (req, res) => {
                 speed: poke.stats[5].base_stat,
                 height: poke.height,
                 weight: poke.weight,
-                type: poke.types.map(e => e.type.name)
+                types: poke.types.map(e => ({name :e.type.name}))
                 }  
                 
             }) 
@@ -92,9 +92,8 @@ router.get("/", async(req, res) => {
 
     try {
         const name = req.query.name;
-        
-        console.log(name)
         const pokeDb = await Pokemon.findAll({
+            where: { name},
             include: {
               model: Type,
               attributes:['name'],
@@ -102,29 +101,30 @@ router.get("/", async(req, res) => {
                   attributes:[],
               },
           }} ) 
-          //console.log(pokemonDb)
-        const api = await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`)
-        console.log(api.data)
-        const poke =  api.data
-        
-            const pokeApi = {
-                id: poke.id,
-                image: poke.sprites.other.home.front_default,
-                name: poke.name,
-                hp: poke.stats[0].base_stat,
-                attack: poke.stats[1].base_stat,
-                defense: poke.stats[2].base_stat,
-                speed: poke.stats[5].base_stat,
-                height: poke.height,
-                weight: poke.weight,
-                type: poke.types.map(p =>p.type.name) 
+        const api = await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`,{ validateStatus: false })
+        const pokeApi = api.data;
+        let pokeFormat = []
+    
+        if (api && api.data !== 'Not Found' ) {
+            
+            pokeFormat = {
+                id: pokeApi.id,
+                image: pokeApi.sprites.other.home.front_default,
+                name: pokeApi.name,
+                hp: pokeApi.stats[0].base_stat,
+                attack: pokeApi.stats[1].base_stat,
+                defense: pokeApi.stats[2].base_stat,
+                speed: pokeApi.stats[5].base_stat,
+                height: pokeApi.height,
+                weight: pokeApi.weight,
+                types: pokeApi.types.map(p => ({ name: p.type.name}))
+                //types: pokeApi.types.map(p => {name: p.name}) 
             }
+        }
             
         
-        const format = [...pokeDb, pokeApi]
-
+        const format = (pokeApi !== 'Not Found') ? [...pokeDb, pokeFormat] : [...pokeDb]
         if(name){
-
             let pokeName = await  format.filter(poke => poke.name.toLowerCase() === name.toLowerCase())
             pokeName.length ? 
             res.send(pokeName) :
@@ -136,19 +136,20 @@ router.get("/", async(req, res) => {
     
 
     } catch (error) {
-        console.log(error)
+        console.log(error, '/ erorr')
     }
+    
 })
 
 router.post("/create", async (req, res) => {
-    const {name, hp, attack, defense, speed, height, weight, types, image} = req.body;
+    const {name, hp, attack, defense, speed, height, weight, types, likes, image} = req.body;
 
     try {
         if(!name){
             res.status(404).send("Llena todos los campos")
         }
             const createPoke = await Pokemon.create({
-                name, hp, attack, defense, speed, height, weight, image
+                name, hp, attack, defense, speed, height, weight, image, likes
             })
             
             const pokemon = await Type.findAll({where: {name: types}});

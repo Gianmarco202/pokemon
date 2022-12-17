@@ -2,11 +2,37 @@ import axios from "axios";
 
 export function getPokemons() {
     return async (dispatch) => {
-        let pedidoApi = await axios.get("http://localhost:3001/pokemons/getAll")
-        dispatch({
-            type: 'GET_POKEMONS',
-            payload: pedidoApi.data
+        const pokemons = await axios.get("http://localhost:3001/pokemons/getAll")
+        const pokemonsData = pokemons.data
+        const format = pokemonsData.map(async element => {
+            if (element && element.url) {
+                const details = await axios.get(element.url)
+                const detailsData = details.data
+                return ({
+                    id: detailsData.id,
+                    image: detailsData.sprites.other.home.front_default,
+                    name: detailsData.name,
+                    hp: detailsData.stats[0].base_stat,
+                    attack: detailsData.stats[1].base_stat,
+                    defense: detailsData.stats[2].base_stat,
+                    speed: detailsData.stats[5].base_stat,
+                    height: detailsData.height,
+                    weight: detailsData.weight,
+                    types: detailsData.types.map(p =>({name: p.type.name})) 
+                })
+            }
+            return element
         });
+
+        Promise.all(format)
+        .then((data) => {
+                
+
+                dispatch({
+                    type: 'GET_POKEMONS',
+                    payload: data
+                });
+            })
     
         
     }  
@@ -36,7 +62,6 @@ export function getDetail(id) {
 export function getTypes() {
     return async (dispatch) => {
         let type = await axios.get("http://localhost:3001/types/getAll");
-        console.log(type.data ,"gettypes")
         dispatch({
             type: 'GET_TYPES',
             payload: type.data

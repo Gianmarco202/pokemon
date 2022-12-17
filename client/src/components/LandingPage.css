@@ -8,6 +8,7 @@
 .landing {
     background-image: url(../images/pokemon6.jpg);
     height: 100vh;
+    background-size: cover;
 }
 
 .landing-title {
@@ -30,4 +31,8 @@ font-family: impact;
 
 letter-spacing: 0;
 text-shadow: -3px -3px 3px white, 3px -3px 3px white, -3px 3px 3px white, 3px 3px 3px white;
+}
+
+.landing p {
+    font-size: 30px;    
 }
